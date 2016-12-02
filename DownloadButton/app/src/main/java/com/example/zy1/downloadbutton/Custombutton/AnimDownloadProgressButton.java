@@ -72,7 +72,9 @@ public class AnimDownloadProgressButton extends TextView {
     private float mDot1transX;
     private float mDot2transX;
 
+    //整体的矩形
     private RectF mBackgroundBounds;
+    //线性渐变
     private LinearGradient mFillBgGradient;
     private LinearGradient mProgressBgGradient;
     private LinearGradient mProgressTextGradient;
@@ -133,12 +135,14 @@ public class AnimDownloadProgressButton extends TextView {
             if (this.isPressed()) {
                 int pressColorleft = buttonController.getPressedColor(mBackgroundColor[0]);
                 int pressColorright = buttonController.getPressedColor(mBackgroundColor[1]);
+                // 是否使用渐变
                 if (buttonController.enableGradient()) {
                     initGradientColor(pressColorleft, pressColorright);
                 } else {
                     initGradientColor(pressColorleft, pressColorleft);
                 }
             } else {
+                // 是否使用渐变
                 if (buttonController.enableGradient()) {
                     initGradientColor(mOriginBackgroundColor[0], mOriginBackgroundColor[1]);
                 } else {
@@ -366,7 +370,20 @@ public class AnimDownloadProgressButton extends TextView {
         //color
         switch (mState) {
             case NORMAL:
+                //启动渐变
                 if (buttonController.enableGradient()) {
+                    /*
+                    * LinearGradient有两个构造函数;
+                    public LinearGradient(float x0, float y0, float x1, float y1, int[] colors, float[] positions,Shader.TileMode tile)
+                    参数:
+                    float x0: 渐变起始点x坐标
+                    float y0:渐变起始点y坐标
+                    float x1:渐变结束点x坐标
+                    float y1:渐变结束点y坐标
+                    int[] colors:颜色 的int 数组
+                    float[] positions: 相对位置的颜色数组,可为null,  若为null,可为null,颜色沿渐变线均匀分布
+                    Shader.TileMode tile: 渲染器平铺模式
+                    * */
                     mFillBgGradient = new LinearGradient(0, getMeasuredHeight() / 2, getMeasuredWidth(), getMeasuredHeight() / 2,
                             mBackgroundColor,
                             null,
@@ -442,6 +459,7 @@ public class AnimDownloadProgressButton extends TextView {
                 //文字变色部分的距离
                 float coverTextLength = textWidth / 2 - getMeasuredWidth() / 2 + coverlength;
                 float textProgress = coverTextLength / textWidth;
+                //根据不同的位置设置不同的颜色
                 if (coverlength <= indicator1) {
                     mTextPaint.setShader(null);
                     mTextPaint.setColor(mTextColor);
@@ -616,7 +634,7 @@ public class AnimDownloadProgressButton extends TextView {
         mCustomerController = customerController;
         return this;
     }
-
+// 恢复数据
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         SavedState ss = (SavedState) state;
@@ -626,6 +644,7 @@ public class AnimDownloadProgressButton extends TextView {
         mCurrentText = ss.currentText;
     }
 
+    //保存数据
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
