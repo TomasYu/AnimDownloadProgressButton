@@ -24,6 +24,14 @@ import com.example.zy1.downloadbutton.R;
 
 /**
  * Created by tanfujun on 15/9/4.
+ *
+ * 原理：
+ * 1.其实完全可以不用继承TextView 你会发现都一样
+ * 2.其实就是写在ondraw里面不停的draw
+ * 3.整个button其实就是一个矩形，只不过里面的填充色很多种
+ * 4.其实中间的那些问题都是canves draw出来的
+ * 5.其实自定义控件 就是掌握 canves api 和坐标的计算
+ * 6.还有一些valueAnimotion 和渐变
  */
 public class AnimDownloadProgressButton extends TextView {
 
